@@ -19,6 +19,7 @@
 cd ~
 git clone https://github.com/wisehackermonkey/HiddenYoutube.git
 cd HiddenYoutube
+pip install -r requirements.txt
 ```
 
 # Summary

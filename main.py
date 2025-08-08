@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # HiddenYoutube Source Code
-from flask import Flask, request, jsonify, render_template_string
+from flask import Flask, request, jsonify, render_template_string,render_template
 from flask_cors import CORS
 import requests
 import random
@@ -11,7 +11,7 @@ import os
 import env
 env.YOUTUBE_API_KEY
 """
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 CORS(app)
 
 YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY") # or env.YOUTUBE_API_KEY

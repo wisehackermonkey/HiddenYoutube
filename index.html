@@ -270,6 +270,66 @@
         .controls {
             position: relative;
         }
+        
+        .credits {
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .credits h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .credits p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .credits a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .credits a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        
+        .original-image {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 2px solid #e1e5e9;
+        }
+        
+        .original-image p {
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .original-image img {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+        
+        .original-image img:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -356,6 +416,18 @@
         <div id="output"></div>
         <div class="video-grid" id="videoGrid"></div>
         <div class="loading" id="loading" style="display: none;">Loading videos...</div>
+        
+        <div class="credits">
+            <h3>Credits</h3>
+            <p>Code created by <strong>Oran Collins</strong> aka <a href="https://github.com/wisehackermonkey" target="_blank">wisehackermonkey on GitHub</a></p>
+            <p>I'd like to thank <strong>KVN AUST</strong> for the awesome patterns, all credit for patterns go to him, go subscribe to his channel <a href="https://www.youtube.com/@KVNAUST" target="_blank">HERE</a></p>
+            <p><strong>KVN AUST:</strong> <a href="https://www.youtube.com/@KVNAUST" target="_blank">https://www.youtube.com/@KVNAUST</a></p>
+            <p> <strong>Heres the youtube video that inspired this</strong> <a href="https://www.youtube.com/watch?v=zYmkOInF6Us">original youtube video</a></p>
+            <div class="original-image">
+                <p>Here's the original patterns image which I used for this website:</p>
+                <img src="static/youtube_recyclebin.jpeg" alt="Original YouTube patterns reference" />
+            </div>
+        </div>
     </div>
 
     <script>

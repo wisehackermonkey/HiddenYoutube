@@ -123,22 +123,43 @@
             font-family: 'Courier New', monospace;
         }
         
-        .current-search {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            font-weight: 600;
-            text-align: center;
-            margin-top: 20px;
+        .control-row.center {
+            justify-content: center;
         }
         
-        .current-search span {
+        .search-btn {
+            font-size: 18px;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+            border-radius: 15px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .search-btn:hover {
+            background: linear-gradient(135deg, #20c997, #28a745);
+            box-shadow: 0 10px 30px rgba(40, 167, 69, 0.4);
+            transform: translateY(-3px);
+        }
+        
+        .current-search-small {
+            font-size: 12px;
+            color: #666;
+            font-weight: normal;
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        
+        .current-search-small span {
             font-family: 'Courier New', monospace;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin-left: 10px;
+            background: #f8f9fa;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            font-size: 11px;
         }
         
         #output { 
@@ -440,17 +461,19 @@
                 <button onclick="generate()">Generate</button>
             </div>
             
+            <div class="control-row center">
+                <button class="search-btn" onclick="searchVideos()">Search YouTube</button>
+            </div>
+            
             <div class="control-row">
-                <button onclick="searchVideos()">Search YouTube</button>
-                
                 <select id="viewFilter">
                     <option value="">All videos</option>
                     <option value="0">No views</option>
                     <option value="5000">Under 5k views</option>
                 </select>
+                
+                <div class="current-search-small">Current search: <span id="currentSearch"></span></div>
             </div>
-            
-            <div class="current-search">Current search: <span id="currentSearch"></span></div>
         </div>
 
         <div id="output"></div>
@@ -465,7 +488,7 @@
             
             <div class="original-image">
                 <p>Here's the original patterns image which I used for this website:</p>
-                <img src="static/youtube_recyclebin.jpeg" alt="Original YouTube patterns reference" />
+                <img src="youtube_recyclebin.jpeg" alt="Original YouTube patterns reference" />
             </div>
         </div>
     </div>

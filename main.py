@@ -86,4 +86,4 @@ def search_videos():
         return jsonify({'videos': generate_mock_videos(query)})
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=os.environ.get("PORT")|80, debug=False)
+    app.run(host="0.0.0.0", port=os.environ.get("PORT") or "80", debug=False)

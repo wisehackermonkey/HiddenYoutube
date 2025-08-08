@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # HiddenYoutube Source Code
+from waitress import serve
+
 from flask import Flask, request, jsonify, render_template_string,render_template
 from flask_cors import CORS
 import requests
@@ -86,4 +88,5 @@ def search_videos():
         return jsonify({'videos': generate_mock_videos(query)})
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=os.environ.get("PORT") or "80", debug=False)
+    port = int(os.environ.get("PORT", 80))
+    serve(app, host="0.0.0.0", port=port)

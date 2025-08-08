@@ -21,6 +21,9 @@ git clone https://github.com/wisehackermonkey/HiddenYoutube.git
 cd HiddenYoutube
 pip install -r requirements.txt
 $env:YOUTUBE_API_KEY = "<YOUTUBE_API_KEY>"
+#waitress-serve --host=0.0.0.0 --port=80 main:app
+python3 main.py
+
 
 ```
 

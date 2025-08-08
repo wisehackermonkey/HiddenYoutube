@@ -36,7 +36,7 @@ def generate_mock_videos(query, count=15):
 
 @app.route('/')
 def index():
-    with open('index.html', 'r') as f:
+    with open('index.html', 'r', encoding="UTF-8") as f:
         return f.read()
 
 @app.route('/api/search', methods=['POST'])

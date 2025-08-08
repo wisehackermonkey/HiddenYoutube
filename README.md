@@ -20,6 +20,8 @@ cd ~
 git clone https://github.com/wisehackermonkey/HiddenYoutube.git
 cd HiddenYoutube
 pip install -r requirements.txt
+$env:YOUTUBE_API_KEY = "<YOUTUBE_API_KEY>"
+
 ```
 
 # Summary

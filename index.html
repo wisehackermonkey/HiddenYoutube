@@ -5,300 +5,271 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Hidden Video Search Generator</title>
     <style>
-     /* YouTube Hidden Video Search Generator - Enhanced Styles */
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    color: #333;
-    line-height: 1.6;
-}
-
-.container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-    color: white;
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    font-weight: 700;
-}
-
-.controls {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 25px;
-    margin-bottom: 30px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-}
-
-select, input, button {
-    padding: 12px 16px;
-    margin: 8px;
-    border: 2px solid #e1e5e9;
-    border-radius: 12px;
-    font-size: 14px;
-    font-family: inherit;
-    transition: all 0.3s ease;
-    background: white;
-    color: #333;
-}
-
-select:focus, input:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    transform: translateY(-1px);
-}
-
-button {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    min-width: 120px;
-}
-
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-}
-
-button:active {
-    transform: translateY(0);
-}
-
-#patternSelect {
-    min-width: 300px;
-}
-
-#regexInput {
-    font-family: 'Courier New', monospace;
-    min-width: 250px;
-    background: #f8f9fa;
-}
-
-#viewFilter {
-    background: #f1f3f4;
-    min-width: 150px;
-}
-
-#output {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 15px;
-    min-height: 60px;
-    word-break: break-all;
-    font-family: 'Courier New', monospace;
-    font-size: 16px;
-    font-weight: bold;
-    border: 2px solid #e1e5e9;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
-    color: #2c3e50;
-}
-
-#output.error {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    color: white;
-    border-color: #e74c3c;
-}
-
-div:has(#currentSearch) {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 10px;
-    margin: 15px 0;
-    border-left: 4px solid #667eea;
-    font-weight: 600;
-}
-
-#currentSearch {
-    font-family: 'Courier New', monospace;
-    color: #667eea;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 25px;
-    margin-top: 30px;
-}
-
-.video-item {
-    background: white;
-    border-radius: 20px;
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255,255,255,0.2);
-    overflow: hidden;
-}
-
-.video-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-}
-
-.video-title {
-    font-weight: 700;
-    margin: 15px 0 8px 0;
-    color: #2c3e50;
-    font-size: 16px;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.video-views {
-    color: #7f8c8d;
-    font-size: 13px;
-    font-weight: 500;
-    margin-top: 8px;
-}
-
-iframe {
-    width: 100%;
-    height: 220px;
-    border-radius: 12px;
-    border: none;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.loading {
-    text-align: center;
-    padding: 40px;
-    color: white;
-    font-size: 18px;
-    font-weight: 600;
-}
-
-.loading::after {
-    content: '';
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(255,255,255,0.3);
-    border-radius: 50%;
-    border-top-color: white;
-    animation: spin 1s linear infinite;
-    margin-left: 10px;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-    
-    h1 {
-        font-size: 2rem;
-        margin-bottom: 20px;
-    }
-    
-    .controls {
-        padding: 20px;
-    }
-    
-    select, input, button {
-        width: 100%;
-        margin: 5px 0;
-    }
-    
-    .video-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    iframe {
-        height: 200px;
-    }
-}
-
-@media (max-width: 480px) {
-    .video-item {
-        padding: 15px;
-    }
-    
-    .controls {
-        padding: 15px;
-    }
-    
-    h1 {
-        font-size: 1.8rem;
-    }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-    .controls {
-        background: rgba(45, 55, 72, 0.95);
-        color: #e2e8f0;
-    }
-    
-    select, input {
-        background: #2d3748;
-        color: #e2e8f0;
-        border-color: #4a5568;
-    }
-    
-    .video-item {
-        background: #2d3748;
-        color: #e2e8f0;
-    }
-    
-    .video-title {
-        color: #f7fafc;
-    }
-    
-    .video-views {
-        color: #a0aec0;
-    }
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-    width: 12px;
-}
-
-::-webkit-scrollbar-track {
-    background: rgba(255,255,255,0.1);
-    border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .controls { 
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .control-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        select, input, button { 
+            padding: 12px 18px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        button:hover::before {
+            left: 100%;
+        }
+        
+        #patternSelect {
+            flex: 2;
+            min-width: 250px;
+        }
+        
+        #regexInput {
+            flex: 1;
+            min-width: 200px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .current-search {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .current-search span {
+            font-family: 'Courier New', monospace;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+        
+        #output { 
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+            min-height: 60px;
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            font-weight: 600;
+            border: 2px solid #e1e5e9;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .error { 
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            border-color: #ff4757;
+        }
+        
+        .video-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); 
+            gap: 25px; 
+            margin-top: 30px; 
+        }
+        
+        .video-item { 
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+        
+        .video-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .video-title { 
+            font-weight: 700;
+            margin: 15px 0 8px 0;
+            font-size: 16px;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+        
+        .video-views { 
+            color: #6c757d;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        iframe { 
+            width: 100%; 
+            height: 220px;
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .loading { 
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #667eea;
+        }
+        
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .control-row {
+                flex-direction: column;
+            }
+            
+            select, input, button {
+                width: 100%;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+        
+        /* Glassmorphism effect for better visual appeal */
+        .controls::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            border-radius: 15px;
+            z-index: -1;
+        }
+        
+        .controls {
+            position: relative;
+        }
     </style>
 </head>
 <body>
@@ -306,75 +277,80 @@ iframe {
         <h1>YouTube Hidden Video Search Generator</h1>
         
         <div class="controls">
-            <select id="patternSelect" onchange="selectPattern()">
-                <option value="">Select a pattern...</option>
-                <option value="/[A-Z]{3}\d{3}/">Example pattern</option>
-                <option value="/IMG \d{4}/">IMG XXXX</option>
-                <option value="/MVI \d{4}/">MVI XXXX</option>
-                <option value="/MOV \d{4}/">MOV XXXX</option>
-                <option value="/VID 20\d{2}\d{2}/">VID (YMD)</option>
-                <option value="/WIN 20\d{2}\d{2}/">WIN (YMD)</option>
-                <option value="/Capture 20\d{2}\d{2}/">Capture (YMD)</option>
-                <option value="/My Movie/">My Movie</option>
-                <option value="/My Edited Video/">My Edited Video</option>
-                <option value="/Screenshot\/Emulated\//">Screenshot/Emulated/</option>
-                <option value="/PXL/">PXL</option>
-                <option value="/InShot_20\d{2}\d{2}/">InShot_(YMD)_</option>
-                <option value="/WhatsApp Video \d{4}/">WhatsApp Video (Y)</option>
-                <option value="/FullSizeRender/">FullSizeRender</option>
-                <option value="/RFReplay/">RFReplay</option>
-                <option value="/VTS \d{2}/">VTS 01</option>
-                <option value="/DVR/">DVR</option>
-                <option value="/SWF/">SWF</option>
-                <option value="/VLC Record/">VLC Record</option>
-                <option value="/Robloxapp/">Robloxapp</option>
-                <option value="/MP4/">MP4</option>
-                <option value="/3GP/">3GP</option>
-                <option value="/MOV/">MOV</option>
-                <option value="/AVI/">AVI</option>
-                <option value="/WMV/">WMV</option>
-                <option value="/MKV/">MKV</option>
-                <option value="/MPEG/">MPEG</option>
-                <option value="/FLV/">FLV</option>
-                <option value="/FLAC/">FLAC</option>
-                <option value="/WAV/">WAV</option>
-                <option value="/\d{3}P \d{3}K/">240P 400K</option>
-                <option value="/\d{3}P \d{3}K/">480P 100K</option>
-                <option value="/\d{3}P \d{3}K [A-Z]/">480P 600K A</option>
-                <option value="/\d{3}P \d{4}K [A-Z]/">480P 2000K A</option>
-                <option value="/\d{3}P \d{4}K [A-Z]/">720P 1500K A</option>
-                <option value="/\d{3}P \d{4}K [A-Z]/">720P 4000K A</option>
-                <option value="/InShot 20\d{2}/">InShot (YMD)</option>
-                <option value="/AUD-20\d{2}/">AUD-(YMD)</option>
-                <option value="/PXL D-20\d{2}/">PXL (YMD) D-</option>
-                <option value="/HNI \d{4}/">HNI 0XXX</option>
-                <option value="/WAD \d{3}/">WAD XXX</option>
-                <option value="/MOLO [A-Z]{2}/">MOLO XX</option>
-                <option value="/MOLO \d{2}/">MOLO XX</option>
-                <option value="/[A-Z]{3} \d{6}/">UTS XXX</option>
-                <option value="/P10 \d{4}/">P10 XXXX</option>
-                <option value="/VTS [A-Z]{2}/">VTS XX</option>
-                <option value="/VO \d/">VO 0-9</option>
-                <option value="/VTS [A-Z]{3} 1/">VTS XXX 1</option>
-                <option value="/VTS \d{2} [A-Z]{3}/">VTS 01 XXX</option>
-                <option value="/My Slideshow/">My Slideshow</option>
-                <option value="/My Slideshow [A-Z]{2}/">My Slideshow XX</option>
-                <option value="/My Slideshow Video/">My Slideshow Video</option>
-                <option value="/My Superflix Video/">My Superflix Video</option>
-                <option value="/My Superflix Video [A-Z]{4}/">My Superflix Video XXXX</option>
-            </select>
+            <div class="control-row">
+                <select id="patternSelect" onchange="selectPattern()">
+                    <option value="">Select a pattern...</option>
+                    <option value="/[A-Z]{3}\d{3}/">Example pattern</option>
+                    <option value="/IMG \d{4}/">IMG XXXX</option>
+                    <option value="/MVI \d{4}/">MVI XXXX</option>
+                    <option value="/MOV \d{4}/">MOV XXXX</option>
+                    <option value="/VID 20\d{2}\d{2}/">VID (YMD)</option>
+                    <option value="/WIN 20\d{2}\d{2}/">WIN (YMD)</option>
+                    <option value="/Capture 20\d{2}\d{2}/">Capture (YMD)</option>
+                    <option value="/My Movie/">My Movie</option>
+                    <option value="/My Edited Video/">My Edited Video</option>
+                    <option value="/Screenshot\/Emulated\//">Screenshot/Emulated/</option>
+                    <option value="/PXL/">PXL</option>
+                    <option value="/InShot_20\d{2}\d{2}/">InShot_(YMD)_</option>
+                    <option value="/WhatsApp Video \d{4}/">WhatsApp Video (Y)</option>
+                    <option value="/FullSizeRender/">FullSizeRender</option>
+                    <option value="/RFReplay/">RFReplay</option>
+                    <option value="/VTS \d{2}/">VTS 01</option>
+                    <option value="/DVR/">DVR</option>
+                    <option value="/SWF/">SWF</option>
+                    <option value="/VLC Record/">VLC Record</option>
+                    <option value="/Robloxapp/">Robloxapp</option>
+                    <option value="/MP4/">MP4</option>
+                    <option value="/3GP/">3GP</option>
+                    <option value="/MOV/">MOV</option>
+                    <option value="/AVI/">AVI</option>
+                    <option value="/WMV/">WMV</option>
+                    <option value="/MKV/">MKV</option>
+                    <option value="/MPEG/">MPEG</option>
+                    <option value="/FLV/">FLV</option>
+                    <option value="/FLAC/">FLAC</option>
+                    <option value="/WAV/">WAV</option>
+                    <option value="/\d{3}P \d{3}K/">240P 400K</option>
+                    <option value="/\d{3}P \d{3}K/">480P 100K</option>
+                    <option value="/\d{3}P \d{3}K [A-Z]/">480P 600K A</option>
+                    <option value="/\d{3}P \d{4}K [A-Z]/">480P 2000K A</option>
+                    <option value="/\d{3}P \d{4}K [A-Z]/">720P 1500K A</option>
+                    <option value="/\d{3}P \d{4}K [A-Z]/">720P 4000K A</option>
+                    <option value="/InShot 20\d{2}/">InShot (YMD)</option>
+                    <option value="/AUD-20\d{2}/">AUD-(YMD)</option>
+                    <option value="/PXL D-20\d{2}/">PXL (YMD) D-</option>
+                    <option value="/HNI \d{4}/">HNI 0XXX</option>
+                    <option value="/WAD \d{3}/">WAD XXX</option>
+                    <option value="/MOLO [A-Z]{2}/">MOLO XX</option>
+                    <option value="/MOLO \d{2}/">MOLO XX</option>
+                    <option value="/[A-Z]{3} \d{6}/">UTS XXX</option>
+                    <option value="/P10 \d{4}/">P10 XXXX</option>
+                    <option value="/VTS [A-Z]{2}/">VTS XX</option>
+                    <option value="/VO \d/">VO 0-9</option>
+                    <option value="/VTS [A-Z]{3} 1/">VTS XXX 1</option>
+                    <option value="/VTS \d{2} [A-Z]{3}/">VTS 01 XXX</option>
+                    <option value="/My Slideshow/">My Slideshow</option>
+                    <option value="/My Slideshow [A-Z]{2}/">My Slideshow XX</option>
+                    <option value="/My Slideshow Video/">My Slideshow Video</option>
+                    <option value="/My Superflix Video/">My Superflix Video</option>
+                    <option value="/My Superflix Video [A-Z]{4}/">My Superflix Video XXXX</option>
+                </select>
+                
+                <input type="text" id="regexInput" placeholder="/[A-Z]{3}\d{3}/" value="/[A-Z]{3}\d{3}/">
+                <button onclick="generate()">Generate</button>
+            </div>
             
-            <input type="text" id="regexInput" placeholder="/[A-Z]{3}\d{3}/" value="/[A-Z]{3}\d{3}/">
-            <button onclick="generate()">Generate</button>
-            <button onclick="searchVideos()">Search YouTube</button>
+            <div class="control-row">
+                <button onclick="searchVideos()">Search YouTube</button>
+                
+                <select id="viewFilter">
+                    <option value="">All videos</option>
+                    <option value="0">No views</option>
+                    <option value="5000">Under 5k views</option>
+                </select>
+            </div>
             
-            <select id="viewFilter">
-                <option value="">All videos</option>
-                <option value="0">No views</option>
-                <option value="5000">Under 5k views</option>
-            </select>
-            
-            <div>Current search: <span id="currentSearch"></span></div>
+            <div class="current-search">Current search: <span id="currentSearch"></span></div>
         </div>
 
         <div id="output"></div>

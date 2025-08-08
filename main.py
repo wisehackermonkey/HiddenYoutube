@@ -5,7 +5,8 @@ from flask_cors import CORS
 import requests
 import random
 import string
-import env
+# import env
+import os
 """
 import env
 env.YOUTUBE_API_KEY
@@ -13,6 +14,7 @@ env.YOUTUBE_API_KEY
 app = Flask(__name__)
 CORS(app)
 
+YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY") # or env.YOUTUBE_API_KEY
 
 def generate_video_id():
     chars = string.ascii_letters + string.digits + '-_'
@@ -47,7 +49,7 @@ def search_videos():
             'q': query,
             'type': 'video',
             'maxResults': 20,
-            'key': env.YOUTUBE_API_KEY
+            'key': YOUTUBE_API_KEY
         }
         
         response = requests.get(url, params=params)
@@ -60,7 +62,7 @@ def search_videos():
             stats_params = {
                 'part': 'statistics',
                 'id': ','.join(video_ids),
-                'key': env.YOUTUBE_API_KEY
+                'key': YOUTUBE_API_KEY
             }
             
             stats_response = requests.get(stats_url, params=stats_params)

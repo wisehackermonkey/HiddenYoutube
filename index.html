@@ -5,35 +5,367 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Hidden Video Search Generator</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        select, button, input { padding: 8px; margin: 5px; }
-        .controls { margin-bottom: 20px; }
-        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
-        .video-item { border: 1px solid #ccc; padding: 10px; }
-        .video-title { font-weight: bold; margin: 5px 0; }
-        .video-views { color: #666; font-size: 12px; }
-        iframe { width: 100%; height: 200px; }
-        .loading { text-align: center; padding: 20px; }
+     /* YouTube Hidden Video Search Generator - Enhanced Styles */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    font-weight: 700;
+}
+
+.controls {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+select, input, button {
+    padding: 12px 16px;
+    margin: 8px;
+    border: 2px solid #e1e5e9;
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: white;
+    color: #333;
+}
+
+select:focus, input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    transform: translateY(-1px);
+}
+
+button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 120px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+#patternSelect {
+    min-width: 300px;
+}
+
+#regexInput {
+    font-family: 'Courier New', monospace;
+    min-width: 250px;
+    background: #f8f9fa;
+}
+
+#viewFilter {
+    background: #f1f3f4;
+    min-width: 150px;
+}
+
+#output {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 15px;
+    min-height: 60px;
+    word-break: break-all;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #e1e5e9;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+    color: #2c3e50;
+}
+
+#output.error {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+    border-color: #e74c3c;
+}
+
+div:has(#currentSearch) {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 15px 0;
+    border-left: 4px solid #667eea;
+    font-weight: 600;
+}
+
+#currentSearch {
+    font-family: 'Courier New', monospace;
+    color: #667eea;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.video-item {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.2);
+    overflow: hidden;
+}
+
+.video-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.video-title {
+    font-weight: 700;
+    margin: 15px 0 8px 0;
+    color: #2c3e50;
+    font-size: 16px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.video-views {
+    color: #7f8c8d;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 8px;
+}
+
+iframe {
+    width: 100%;
+    height: 220px;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    
+    .controls {
+        padding: 20px;
+    }
+    
+    select, input, button {
+        width: 100%;
+        margin: 5px 0;
+    }
+    
+    .video-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    iframe {
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-item {
+        padding: 15px;
+    }
+    
+    .controls {
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .controls {
+        background: rgba(45, 55, 72, 0.95);
+        color: #e2e8f0;
+    }
+    
+    select, input {
+        background: #2d3748;
+        color: #e2e8f0;
+        border-color: #4a5568;
+    }
+    
+    .video-item {
+        background: #2d3748;
+        color: #e2e8f0;
+    }
+    
+    .video-title {
+        color: #f7fafc;
+    }
+    
+    .video-views {
+        color: #a0aec0;
+    }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>YouTube Hidden Video Finder</h1>
+        <h1>YouTube Hidden Video Search Generator</h1>
         
         <div class="controls">
-            <select id="patternSelect">
-                <option value="">Choose pattern...</option>
-                <option value="IMG_XXXX">IMG_XXXX</option>
-                <option value="MVI_XXXX">MVI_XXXX</option>
-                <option value="DSC_XXXX">DSC_XXXX</option>
-                <option value="PXL_DATE_TIME">PXL_YYYYMMDD_HHMMSS</option>
-                <option value="GOPR_XXXX">GOPR_XXXX</option>
-                <option value="My Movie">My Movie</option>
-                <option value="HNI_0XXX">HNI_0XXX</option>
+            <select id="patternSelect" onchange="selectPattern()">
+                <option value="">Select a pattern...</option>
+                <option value="/[A-Z]{3}\d{3}/">Example pattern</option>
+                <option value="/IMG \d{4}/">IMG XXXX</option>
+                <option value="/MVI \d{4}/">MVI XXXX</option>
+                <option value="/MOV \d{4}/">MOV XXXX</option>
+                <option value="/VID 20\d{2}\d{2}/">VID (YMD)</option>
+                <option value="/WIN 20\d{2}\d{2}/">WIN (YMD)</option>
+                <option value="/Capture 20\d{2}\d{2}/">Capture (YMD)</option>
+                <option value="/My Movie/">My Movie</option>
+                <option value="/My Edited Video/">My Edited Video</option>
+                <option value="/Screenshot\/Emulated\//">Screenshot/Emulated/</option>
+                <option value="/PXL/">PXL</option>
+                <option value="/InShot_20\d{2}\d{2}/">InShot_(YMD)_</option>
+                <option value="/WhatsApp Video \d{4}/">WhatsApp Video (Y)</option>
+                <option value="/FullSizeRender/">FullSizeRender</option>
+                <option value="/RFReplay/">RFReplay</option>
+                <option value="/VTS \d{2}/">VTS 01</option>
+                <option value="/DVR/">DVR</option>
+                <option value="/SWF/">SWF</option>
+                <option value="/VLC Record/">VLC Record</option>
+                <option value="/Robloxapp/">Robloxapp</option>
+                <option value="/MP4/">MP4</option>
+                <option value="/3GP/">3GP</option>
+                <option value="/MOV/">MOV</option>
+                <option value="/AVI/">AVI</option>
+                <option value="/WMV/">WMV</option>
+                <option value="/MKV/">MKV</option>
+                <option value="/MPEG/">MPEG</option>
+                <option value="/FLV/">FLV</option>
+                <option value="/FLAC/">FLAC</option>
+                <option value="/WAV/">WAV</option>
+                <option value="/\d{3}P \d{3}K/">240P 400K</option>
+                <option value="/\d{3}P \d{3}K/">480P 100K</option>
+                <option value="/\d{3}P \d{3}K [A-Z]/">480P 600K A</option>
+                <option value="/\d{3}P \d{4}K [A-Z]/">480P 2000K A</option>
+                <option value="/\d{3}P \d{4}K [A-Z]/">720P 1500K A</option>
+                <option value="/\d{3}P \d{4}K [A-Z]/">720P 4000K A</option>
+                <option value="/InShot 20\d{2}/">InShot (YMD)</option>
+                <option value="/AUD-20\d{2}/">AUD-(YMD)</option>
+                <option value="/PXL D-20\d{2}/">PXL (YMD) D-</option>
+                <option value="/HNI \d{4}/">HNI 0XXX</option>
+                <option value="/WAD \d{3}/">WAD XXX</option>
+                <option value="/MOLO [A-Z]{2}/">MOLO XX</option>
+                <option value="/MOLO \d{2}/">MOLO XX</option>
+                <option value="/[A-Z]{3} \d{6}/">UTS XXX</option>
+                <option value="/P10 \d{4}/">P10 XXXX</option>
+                <option value="/VTS [A-Z]{2}/">VTS XX</option>
+                <option value="/VO \d/">VO 0-9</option>
+                <option value="/VTS [A-Z]{3} 1/">VTS XXX 1</option>
+                <option value="/VTS \d{2} [A-Z]{3}/">VTS 01 XXX</option>
+                <option value="/My Slideshow/">My Slideshow</option>
+                <option value="/My Slideshow [A-Z]{2}/">My Slideshow XX</option>
+                <option value="/My Slideshow Video/">My Slideshow Video</option>
+                <option value="/My Superflix Video/">My Superflix Video</option>
+                <option value="/My Superflix Video [A-Z]{4}/">My Superflix Video XXXX</option>
             </select>
             
-            <button onclick="generateSearch()">Generate</button>
+            <input type="text" id="regexInput" placeholder="/[A-Z]{3}\d{3}/" value="/[A-Z]{3}\d{3}/">
+            <button onclick="generate()">Generate</button>
             <button onclick="searchVideos()">Search YouTube</button>
             
             <select id="viewFilter">
@@ -45,6 +377,7 @@
             <div>Current search: <span id="currentSearch"></span></div>
         </div>
 
+        <div id="output"></div>
         <div class="video-grid" id="videoGrid"></div>
         <div class="loading" id="loading" style="display: none;">Loading videos...</div>
     </div>
@@ -53,115 +386,569 @@
         let currentSearch = '';
         let allVideos = [];
 
-        const patterns = {
-            'IMG_XXXX': () => `IMG_${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`,
-            'MVI_XXXX': () => `MVI_${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`,
-            'DSC_XXXX': () => `DSC_${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`,
-            'PXL_DATE_TIME': () => {
-                const year = Math.floor(Math.random() * 10) + 2015;
-                const month = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
-                const day = String(Math.floor(Math.random() * 28) + 1).padStart(2, '0');
-                const hour = String(Math.floor(Math.random() * 24)).padStart(2, '0');
-                const minute = String(Math.floor(Math.random() * 60)).padStart(2, '0');
-                const second = String(Math.floor(Math.random() * 60)).padStart(2, '0');
-                return `PXL_${year}${month}${day}_${hour}${minute}${second}`;
-            },
-            'GOPR_XXXX': () => `GOPR${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`,
-            'My Movie': () => 'My Movie',
-            'HNI_0XXX': () => `HNI_0${String(Math.floor(Math.random() * 1000)).padStart(3, '0')}`
-        };
-
-        function generateSearch() {
-            const selectedPattern = document.getElementById('patternSelect').value;
-            if (!selectedPattern) return;
-
-            currentSearch = patterns[selectedPattern]();
-            document.getElementById('currentSearch').textContent = currentSearch;
+// Simple DRange implementation (Discontinuous Range)
+class DRange {
+    constructor(start, end) {
+        this.ranges = [];
+        if (arguments.length === 1) {
+            this.add(start);
+        } else if (arguments.length === 2) {
+            this.add(start, end);
         }
-
-        async function searchVideos() {
-            if (!currentSearch) return;
-
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('videoGrid').innerHTML = '';
-
-            try {
-                const response = await fetch('/api/search', {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        query: currentSearch
-                    })
-                });
-
-                const data = await response.json();
-                allVideos = data.videos;
-                displayVideos(allVideos);
-
-            } catch (error) {
-                allVideos = generateMockVideos();
-                displayVideos(allVideos);
+    }
+    
+    add(start, end) {
+        if (typeof start === 'object' && start instanceof DRange) {
+            // Adding another DRange
+            for (let range of start.ranges) {
+                this.add(range.start, range.end);
             }
-
-            document.getElementById('loading').style.display = 'none';
+        } else if (end === undefined) {
+            // Single number
+            this.ranges.push({ start: start, end: start });
+        } else {
+            // Range
+            this.ranges.push({ start: start, end: end });
         }
-
-        function generateMockVideos() {
-            const mockVideos = [];
-            for (let i = 0; i < 15; i++) {
-                const viewCount = Math.random() < 0.3 ? 0 : Math.floor(Math.random() * 10000);
-                mockVideos.push({
-                    id: generateVideoId(),
-                    title: currentSearch + (Math.random() > 0.7 ? ` (${Math.floor(Math.random() * 100)})` : ''),
-                    viewCount: viewCount,
-                    channelName: `User${Math.floor(Math.random() * 10000)}`
-                });
+        this._normalize();
+        return this;
+    }
+    
+    subtract(other) {
+        let result = new DRange();
+        for (let range of this.ranges) {
+            let current = [range];
+            for (let otherRange of other.ranges) {
+                let next = [];
+                for (let curr of current) {
+                    if (curr.end < otherRange.start || curr.start > otherRange.end) {
+                        next.push(curr);
+                    } else {
+                        if (curr.start < otherRange.start) {
+                            next.push({ start: curr.start, end: otherRange.start - 1 });
+                        }
+                        if (curr.end > otherRange.end) {
+                            next.push({ start: otherRange.end + 1, end: curr.end });
+                        }
+                    }
+                }
+                current = next;
             }
-            return mockVideos;
-        }
-
-        function generateVideoId() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
-            let result = '';
-            for (let i = 0; i < 11; i++) {
-                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            for (let r of current) {
+                result.ranges.push(r);
             }
-            return result;
         }
-
-        function displayVideos(videos) {
-            const grid = document.getElementById('videoGrid');
-            const filter = document.getElementById('viewFilter').value;
-            
-            let filteredVideos = videos;
-            if (filter) {
-                const maxViews = parseInt(filter);
-                if (maxViews === 0) {
-                    filteredVideos = videos.filter(v => v.viewCount === 0);
-                } else {
-                    filteredVideos = videos.filter(v => v.viewCount < maxViews);
+        result._normalize();
+        return result;
+    }
+    
+    intersect(other) {
+        let result = new DRange();
+        for (let range of this.ranges) {
+            for (let otherRange of other.ranges) {
+                let start = Math.max(range.start, otherRange.start);
+                let end = Math.min(range.end, otherRange.end);
+                if (start <= end) {
+                    result.add(start, end);
                 }
             }
+        }
+        return result;
+    }
+    
+    clone() {
+        let result = new DRange();
+        result.ranges = this.ranges.map(r => ({ start: r.start, end: r.end }));
+        return result;
+    }
+    
+    get length() {
+        return this.ranges.reduce((sum, range) => sum + (range.end - range.start + 1), 0);
+    }
+    
+    index(i) {
+        for (let range of this.ranges) {
+            let rangeSize = range.end - range.start + 1;
+            if (i < rangeSize) {
+                return range.start + i;
+            }
+            i -= rangeSize;
+        }
+        throw new Error('Index out of range');
+    }
+    
+    _normalize() {
+        this.ranges.sort((a, b) => a.start - b.start);
+        let normalized = [];
+        for (let range of this.ranges) {
+            if (normalized.length === 0) {
+                normalized.push(range);
+            } else {
+                let last = normalized[normalized.length - 1];
+                if (range.start <= last.end + 1) {
+                    last.end = Math.max(last.end, range.end);
+                } else {
+                    normalized.push(range);
+                }
+            }
+        }
+        this.ranges = normalized;
+    }
+}
 
-            grid.innerHTML = filteredVideos.map(video => `
-                <div class="video-item">
-                    <iframe src="https://www.youtube.com/embed/${video.id}" frameborder="0" allowfullscreen></iframe>
-                    <div class="video-title">${video.title}</div>
-                    <div class="video-views">${video.viewCount.toLocaleString()} views • ${video.channelName}</div>
-                </div>
-            `).join('');
+// Simple ret (regexp tree) implementation
+const ret = (function() {
+    const types = {
+        ROOT: 0,
+        GROUP: 1,
+        POSITION: 2,
+        SET: 3,
+        REPETITION: 4,
+        REFERENCE: 5,
+        CHAR: 6,
+        RANGE: 7
+    };
+
+    function parse(regexp) {
+        let pos = 0;
+        let len = regexp.length;
+        
+        function parseGroup() {
+            let node = { type: types.GROUP, stack: [] };
+            
+            while (pos < len && regexp[pos] !== ')') {
+                node.stack.push(parseToken());
+            }
+            
+            if (pos < len && regexp[pos] === ')') pos++;
+            return node;
+        }
+        
+        function parseSet() {
+            let node = { type: types.SET, set: [], not: false };
+            
+            if (pos < len && regexp[pos] === '^') {
+                node.not = true;
+                pos++;
+            }
+            
+            while (pos < len && regexp[pos] !== ']') {
+                if (pos + 2 < len && regexp[pos + 1] === '-') {
+                    node.set.push({
+                        type: types.RANGE,
+                        from: regexp.charCodeAt(pos),
+                        to: regexp.charCodeAt(pos + 2)
+                    });
+                    pos += 3;
+                } else {
+                    node.set.push({
+                        type: types.CHAR,
+                        value: regexp.charCodeAt(pos)
+                    });
+                    pos++;
+                }
+            }
+            
+            if (pos < len && regexp[pos] === ']') pos++;
+            return node;
+        }
+        
+        function parseToken() {
+            let node;
+            
+            if (pos >= len) return null;
+            
+            let char = regexp[pos];
+            
+            switch (char) {
+                case '(':
+                    pos++;
+                    node = parseGroup();
+                    break;
+                case '[':
+                    pos++;
+                    node = parseSet();
+                    break;
+                case '\\':
+                    pos++;
+                    if (pos < len) {
+                        let escaped = regexp[pos];
+                        if (escaped === 'd') {
+                            node = {
+                                type: types.SET,
+                                set: [{ type: types.RANGE, from: 48, to: 57 }],
+                                not: false
+                            };
+                        } else if (escaped === 'w') {
+                            node = {
+                                type: types.SET,
+                                set: [
+                                    { type: types.RANGE, from: 48, to: 57 },
+                                    { type: types.RANGE, from: 65, to: 90 },
+                                    { type: types.RANGE, from: 97, to: 122 },
+                                    { type: types.CHAR, value: 95 }
+                                ],
+                                not: false
+                            };
+                        } else if (escaped === 's') {
+                            node = {
+                                type: types.SET,
+                                set: [
+                                    { type: types.CHAR, value: 32 },
+                                    { type: types.CHAR, value: 9 },
+                                    { type: types.CHAR, value: 10 },
+                                    { type: types.CHAR, value: 13 }
+                                ],
+                                not: false
+                            };
+                        } else {
+                            node = { type: types.CHAR, value: escaped.charCodeAt(0) };
+                        }
+                        pos++;
+                    }
+                    break;
+                default:
+                    node = { type: types.CHAR, value: char.charCodeAt(0) };
+                    pos++;
+                    break;
+            }
+            
+            // Check for repetition
+            if (pos < len) {
+                let next = regexp[pos];
+                if (next === '*') {
+                    node = { type: types.REPETITION, min: 0, max: Infinity, value: node };
+                    pos++;
+                } else if (next === '+') {
+                    node = { type: types.REPETITION, min: 1, max: Infinity, value: node };
+                    pos++;
+                } else if (next === '?') {
+                    node = { type: types.REPETITION, min: 0, max: 1, value: node };
+                    pos++;
+                } else if (next === '{') {
+                    pos++;
+                    let min = '';
+                    while (pos < len && /\d/.test(regexp[pos])) {
+                        min += regexp[pos];
+                        pos++;
+                    }
+                    let max = min;
+                    if (pos < len && regexp[pos] === ',') {
+                        pos++;
+                        max = '';
+                        while (pos < len && /\d/.test(regexp[pos])) {
+                            max += regexp[pos];
+                            pos++;
+                        }
+                        if (max === '') max = 'Infinity';
+                    }
+                    if (pos < len && regexp[pos] === '}') {
+                        pos++;
+                        node = {
+                            type: types.REPETITION,
+                            min: parseInt(min) || 0,
+                            max: max === 'Infinity' ? Infinity : parseInt(max),
+                            value: node
+                        };
+                    }
+                }
+            }
+            
+            return node;
+        }
+        
+        let tokens = { type: types.ROOT, stack: [] };
+        while (pos < len) {
+            let token = parseToken();
+            if (token) tokens.stack.push(token);
+        }
+        
+        return tokens;
+    }
+    
+    return function(regexp) {
+        return parse(regexp);
+    };
+})();
+
+ret.types = {
+    ROOT: 0,
+    GROUP: 1,
+    POSITION: 2,
+    SET: 3,
+    REPETITION: 4,
+    REFERENCE: 5,
+    CHAR: 6,
+    RANGE: 7
+};
+
+// RandExp class (adapted for browser)
+class RandExp {
+    constructor(regexp, m) {
+        this._setDefaults(regexp);
+        if (regexp instanceof RegExp) {
+            this.ignoreCase = regexp.ignoreCase;
+            this.multiline = regexp.multiline;
+            regexp = regexp.source;
+        } else if (typeof regexp === 'string') {
+            this.ignoreCase = m && m.indexOf('i') !== -1;
+            this.multiline = m && m.indexOf('m') !== -1;
+        } else {
+            throw new Error('Expected a regexp or string');
         }
 
-        document.getElementById('viewFilter').addEventListener('change', () => {
-            if (allVideos.length > 0) {
-                displayVideos(allVideos);
+        this.tokens = ret(regexp);
+    }
+
+    _setDefaults(regexp) {
+        this.max = regexp.max != null ? regexp.max :
+            RandExp.prototype.max != null ? RandExp.prototype.max : 100;
+
+        this.defaultRange = regexp.defaultRange ?
+            regexp.defaultRange : this.defaultRange.clone();
+
+        if (regexp.randInt) {
+            this.randInt = regexp.randInt;
+        }
+    }
+
+    gen() {
+        return this._gen(this.tokens, []);
+    }
+
+    _gen(token, groups) {
+        var stack, str, n, i, l;
+
+        switch (token.type) {
+            case ret.types.ROOT:
+            case ret.types.GROUP:
+                if (token.followedBy || token.notFollowedBy) { return ''; }
+
+                if (token.remember && token.groupNumber === undefined) {
+                    token.groupNumber = groups.push(null) - 1;
+                }
+
+                stack = token.options ?
+                    this._randSelect(token.options) : token.stack;
+
+                str = '';
+                for (i = 0, l = stack.length; i < l; i++) {
+                    str += this._gen(stack[i], groups);
+                }
+
+                if (token.remember) {
+                    groups[token.groupNumber] = str;
+                }
+                return str;
+
+            case ret.types.POSITION:
+                return '';
+
+            case ret.types.SET:
+                var expandedSet = this._expand(token);
+                if (!expandedSet.length) { return ''; }
+                return String.fromCharCode(this._randSelect(expandedSet));
+
+            case ret.types.REPETITION:
+                n = this.randInt(token.min,
+                    token.max === Infinity ? token.min + this.max : token.max);
+
+                str = '';
+                for (i = 0; i < n; i++) {
+                    str += this._gen(token.value, groups);
+                }
+
+                return str;
+
+            case ret.types.REFERENCE:
+                return groups[token.value - 1] || '';
+
+            case ret.types.CHAR:
+                var code = this.ignoreCase && this._randBool() ?
+                    this._toOtherCase(token.value) : token.value;
+                return String.fromCharCode(code);
+        }
+    }
+
+    _toOtherCase(code) {
+        return code + (97 <= code && code <= 122 ? -32 :
+            65 <= code && code <= 90 ? 32 : 0);
+    }
+
+    _randBool() {
+        return !this.randInt(0, 1);
+    }
+
+    _randSelect(arr) {
+        if (arr instanceof DRange) {
+            return arr.index(this.randInt(0, arr.length - 1));
+        }
+        return arr[this.randInt(0, arr.length - 1)];
+    }
+
+    _expand(token) {
+        if (token.type === ret.types.CHAR) {
+            return new DRange(token.value);
+        } else if (token.type === ret.types.RANGE) {
+            return new DRange(token.from, token.to);
+        } else {
+            let drange = new DRange();
+            for (let i = 0; i < token.set.length; i++) {
+                let subrange = this._expand(token.set[i]);
+                drange.add(subrange);
+                if (this.ignoreCase) {
+                    for (let j = 0; j < subrange.length; j++) {
+                        let code = subrange.index(j);
+                        let otherCaseCode = this._toOtherCase(code);
+                        if (code !== otherCaseCode) {
+                            drange.add(otherCaseCode);
+                        }
+                    }
+                }
             }
+            if (token.not) {
+                return this.defaultRange.clone().subtract(drange);
+            } else {
+                return this.defaultRange.clone().intersect(drange);
+            }
+        }
+    }
+
+    randInt(a, b) {
+        return a + Math.floor(Math.random() * (1 + b - a));
+    }
+
+    get defaultRange() {
+        return this._range = this._range || new DRange(32, 126);
+    }
+
+    set defaultRange(range) {
+        this._range = range;
+    }
+}
+
+function selectPattern() {
+    const select = document.getElementById('patternSelect');
+    const input = document.getElementById('regexInput');
+    if (select.value) {
+        input.value = select.value;
+    }
+}
+
+function generate() {
+    const input = document.getElementById('regexInput').value;
+    const output = document.getElementById('output');
+    
+    try {
+        let regexString = input.trim();
+        if (regexString.startsWith('/') && regexString.endsWith('/')) {
+            regexString = regexString.slice(1, -1);
+        }
+        
+        const randexp = new RandExp(regexString);
+        const result = randexp.gen();
+        
+        output.textContent = result;
+        output.className = '';
+        
+        currentSearch = result;
+        document.getElementById('currentSearch').textContent = currentSearch;
+    } catch (error) {
+        output.textContent = 'Error: ' + error.message;
+        output.className = 'error';
+    }
+}
+
+async function searchVideos() {
+    if (!currentSearch) return;
+
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('videoGrid').innerHTML = '';
+
+    try {
+        const response = await fetch('/api/search', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                query: currentSearch
+            })
         });
 
-        document.getElementById('patternSelect').value = 'IMG_XXXX';
-        generateSearch();
+        const data = await response.json();
+        allVideos = data.videos;
+        displayVideos(allVideos);
+
+    } catch (error) {
+        allVideos = generateMockVideos();
+        displayVideos(allVideos);
+    }
+
+    document.getElementById('loading').style.display = 'none';
+}
+
+function generateMockVideos() {
+    const mockVideos = [];
+    for (let i = 0; i < 15; i++) {
+        const viewCount = Math.random() < 0.3 ? 0 : Math.floor(Math.random() * 10000);
+        mockVideos.push({
+            id: generateVideoId(),
+            title: currentSearch + (Math.random() > 0.7 ? ` (${Math.floor(Math.random() * 100)})` : ''),
+            viewCount: viewCount,
+            channelName: `User${Math.floor(Math.random() * 10000)}`
+        });
+    }
+    return mockVideos;
+}
+
+function generateVideoId() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+    let result = '';
+    for (let i = 0; i < 11; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
+
+function displayVideos(videos) {
+    const grid = document.getElementById('videoGrid');
+    const filter = document.getElementById('viewFilter').value;
+    
+    let filteredVideos = videos;
+    if (filter) {
+        const maxViews = parseInt(filter);
+        if (maxViews === 0) {
+            filteredVideos = videos.filter(v => v.viewCount === 0);
+        } else {
+            filteredVideos = videos.filter(v => v.viewCount < maxViews);
+        }
+    }
+
+    grid.innerHTML = filteredVideos.map(video => `
+        <div class="video-item">
+            <iframe src="https://www.youtube.com/embed/${video.id}" frameborder="0" allowfullscreen></iframe>
+            <div class="video-title">${video.title}</div>
+            <div class="video-views">${video.viewCount.toLocaleString()} views • ${video.channelName}</div>
+        </div>
+    `).join('');
+}
+
+document.getElementById('viewFilter').addEventListener('change', () => {
+    if (allVideos.length > 0) {
+        displayVideos(allVideos);
+    }
+});
+
+document.getElementById('regexInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        generate();
+    }
+});
+
+document.getElementById('patternSelect').value = '/IMG \d{4}/';
+selectPattern();
+generate();
     </script>
 </body>
 </html>

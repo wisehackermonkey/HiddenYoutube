@@ -30,11 +30,14 @@ pip install -r requirements.txt
 ### -  *[License](#License)*
 
 
-<!-- 
---------------
 # Screenshots
 - <img src="NNNNNN" width="400"> 
- 
+ ![1754603743747](image/README/1754603743747.png)
+
+ # added regex generation for the patterns
+ ![1754627289199](image/README/1754627289199.png)
+<!-- 
+--------------
 
 -------------- 
 # Development
